@@ -24,19 +24,9 @@ export const App = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (contacts) {
-  //     localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
-  //   }
-  // }, []);
-
-  // componentDidUpdate(_, prevState) {
-  //   const { contacts } = this.state;
-
-  //   if (prevState.contacts !== contacts) {
-  //     localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
-  //   }
-  // }
+  useEffect(() => {
+    localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
+  }, [contacts]);
 
   const dataValidation = data =>
     contacts.find(
@@ -57,15 +47,11 @@ export const App = () => {
       number: data.number,
     };
 
-    setContacts(state => ({
-      contacts: [contact, ...state.contacts],
-    }));
+    setContacts(state => [contact, ...state]);
   };
 
   const deleteContact = contactId => {
-    setContacts(state => ({
-      contacts: state.contacts.filter(contact => contact.id !== contactId),
-    }));
+    setContacts(state => state.filter(contact => contact.id !== contactId));
   };
 
   const changeFilter = e => {
