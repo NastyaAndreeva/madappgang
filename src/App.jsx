@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { nanoid } from 'nanoid';
@@ -6,24 +5,26 @@ import { FriendList } from 'components/FriendList';
 import { ContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { Box } from 'components/Box';
-import { CONTACTS_KEY } from 'constants/constants';
-import { useLocalStorage } from 'hooks/useLocalStorage';
+import { useRedux } from 'hooks';
+import {
+  addContact,
+  deleteContact,
+  changeFilter,
+  getContacts,
+  getFilter,
+} from 'store/contacts';
 
 export const App = () => {
-  const [contacts, setContacts] = useLocalStorage(CONTACTS_KEY, [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ]);
-  const [filter, setFilter] = useState('');
+  const [selector, dispatch] = useRedux();
+  const contacts = selector(getContacts);
+  const filter = selector(getFilter);
 
   const dataValidation = data =>
     contacts.find(
       contact => contact.name.toLowerCase() === data.name.toLowerCase()
     );
 
-  const addContact = data => {
+  const handleSubmit = data => {
     const isAlreadyAdded = dataValidation(data);
 
     if (isAlreadyAdded) {
@@ -37,15 +38,15 @@ export const App = () => {
       number: data.number,
     };
 
-    setContacts(state => [contact, ...state]);
+    dispatch(addContact(contact));
   };
 
-  const deleteContact = contactId => {
-    setContacts(state => state.filter(contact => contact.id !== contactId));
+  const deleteContactbyId = contactId => {
+    dispatch(deleteContact(contactId));
   };
 
-  const changeFilter = e => {
-    return setFilter(e.currentTarget.value);
+  const changeFormFilter = e => {
+    return dispatch(changeFilter(e.currentTarget.value));
   };
 
   const getFilteredContacts = () => {
@@ -68,15 +69,21 @@ export const App = () => {
         as="section"
       >
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={addContact} />
+        <ContactForm onSubmit={handleSubmit} />
 
         <h2>Contacts</h2>
         <label htmlFor="filter">
           Find contacts by name
-          <Filter value={filter} onChange={changeFilter} />
+          <Filter value={filter} onChange={changeFormFilter} />
         </label>
-        {friendList.length !== 0 && (
-          <FriendList friends={friendList} onDeleteContact={deleteContact} />
+        {contacts.length !== 0 && (
+          <>
+            <div>Friend list</div>
+            <FriendList
+              friends={friendList}
+              onDeleteContact={deleteContactbyId}
+            />
+          </>
         )}
       </Box>
       <ToastContainer autoClose={3000} />
