@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { RiContactsBook2Line } from 'react-icons/ri';
 import { Button } from 'components/ui/Button';
 import { theme } from 'stylesConfig/theme';
+import { useRedux } from 'hooks';
+import { deleteContact, getContacts, getFilter } from 'store/contacts';
 
 const FriendListStyled = styled.ul`
   list-style: none;
@@ -18,24 +19,36 @@ const FriendListItem = styled.li`
   }
 `;
 
-export const FriendList = ({ friends, onDeleteContact }) => {
+export const FriendList = () => {
+  const [selector, dispatch] = useRedux();
+  const contacts = selector(getContacts);
+  const filter = selector(getFilter);
+
+  const deleteContactbyId = contactId => {
+    dispatch(deleteContact(contactId));
+  };
+
+  const getFilteredContacts = () => {
+    const normilizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normilizedFilter)
+    );
+  };
+
+  const friendList = getFilteredContacts();
   return (
-    <FriendListStyled friends={friends}>
-      {friends.map(({ id, name, number }) => (
+    <FriendListStyled>
+      {friendList.map(({ id, name, number }) => (
         <FriendListItem key={id}>
           <RiContactsBook2Line fill={theme.colors.backgroundBlueBtn} />
           <span>{name}: </span>
           <span>{number}</span>
-          <Button type="button" onClick={() => onDeleteContact(id)}>
+          <Button type="button" onClick={() => deleteContactbyId(id)}>
             Delete
           </Button>
         </FriendListItem>
       ))}
     </FriendListStyled>
   );
-};
-
-FriendList.propTypes = {
-  friends: PropTypes.array.isRequired,
-  onDeleteContact: PropTypes.func.isRequired,
 };

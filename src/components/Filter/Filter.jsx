@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
+import { useRedux } from 'hooks';
+import { changeFilter, getFilter } from 'store/contacts';
 
-export const Filter = ({ value, onChange }) => {
-  return <input type="text" name="filter" value={value} onChange={onChange} />;
-};
-
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+export const Filter = () => {
+  const [selector, dispatch] = useRedux();
+  const filter = selector(getFilter);
+  const onChange = e => {
+    return dispatch(changeFilter(e.currentTarget.value));
+  };
+  return <input type="text" name="filter" value={filter} onChange={onChange} />;
 };

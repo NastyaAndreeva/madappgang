@@ -1,9 +1,12 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import PropTypes from 'prop-types';
 import { Box } from 'components/Box';
 import { Button } from 'components/ui/Button';
+import { toast } from 'react-toastify';
+import { useRedux } from 'hooks';
+import { addContact, getContacts } from 'store/contacts';
 
 const Label = styled.label`
   margin-bottom: 10px;
@@ -14,7 +17,32 @@ const ContactErrorMessage = styled(ErrorMessage)`
   font-size: 10px;
 `;
 
-export const ContactForm = ({ onSubmit }) => {
+export const ContactForm = () => {
+  const [selector, dispatch] = useRedux();
+  const contacts = selector(getContacts);
+
+  const dataValidation = data =>
+    contacts.find(
+      contact => contact.name.toLowerCase() === data.name.toLowerCase()
+    );
+
+  const onSubmit = data => {
+    const isAlreadyAdded = dataValidation(data);
+
+    if (isAlreadyAdded) {
+      toast.error(`${data.name} is already in your contacts`);
+      return;
+    }
+
+    const contact = {
+      id: nanoid(),
+      name: data.name,
+      number: data.number,
+    };
+
+    dispatch(addContact(contact));
+  };
+
   const handleSubmit = (values, { resetForm }) => {
     onSubmit(values);
     resetForm();
@@ -57,8 +85,4 @@ export const ContactForm = ({ onSubmit }) => {
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
