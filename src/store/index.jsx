@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore } from 'redux-persist';
-import { contactsReducer } from './contacts';
+import contactsReducer from 'store/contacts';
 import middleware from './middleware';
 
 export const store = configureStore({

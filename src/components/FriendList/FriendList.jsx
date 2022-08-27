@@ -1,9 +1,15 @@
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import { RiContactsBook2Line } from 'react-icons/ri';
 import { Button } from 'components/ui/Button';
 import { theme } from 'stylesConfig/theme';
 import { useRedux } from 'hooks';
-import { deleteContact, getContacts, getFilter } from 'store/contacts';
+import { getFilter } from 'store/contacts';
+import {
+  deleteContactAsync,
+  getContactsAsync,
+  getContacts,
+} from 'store/contacts';
 
 const FriendListStyled = styled.ul`
   list-style: none;
@@ -24,8 +30,12 @@ export const FriendList = () => {
   const contacts = selector(getContacts);
   const filter = selector(getFilter);
 
+  useEffect(() => {
+    dispatch(getContactsAsync());
+  }, [dispatch]);
+
   const deleteContactbyId = contactId => {
-    dispatch(deleteContact(contactId));
+    dispatch(deleteContactAsync(contactId));
   };
 
   const getFilteredContacts = () => {
@@ -36,10 +46,9 @@ export const FriendList = () => {
     );
   };
 
-  const friendList = getFilteredContacts();
   return (
     <FriendListStyled>
-      {friendList.map(({ id, name, number }) => (
+      {getFilteredContacts().map(({ id, name, number }) => (
         <FriendListItem key={id}>
           <RiContactsBook2Line fill={theme.colors.backgroundBlueBtn} />
           <span>{name}: </span>

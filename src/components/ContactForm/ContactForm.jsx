@@ -6,7 +6,7 @@ import { Box } from 'components/Box';
 import { Button } from 'components/ui/Button';
 import { toast } from 'react-toastify';
 import { useRedux } from 'hooks';
-import { addContact, getContacts } from 'store/contacts';
+import { addContactAsync, getContacts } from 'store/contacts';
 
 const Label = styled.label`
   margin-bottom: 10px;
@@ -40,7 +40,7 @@ export const ContactForm = () => {
       number: data.number,
     };
 
-    dispatch(addContact(contact));
+    dispatch(addContactAsync(contact));
   };
 
   const handleSubmit = (values, { resetForm }) => {

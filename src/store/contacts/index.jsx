@@ -1,27 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-
-const items = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+import {
+  getAllContacts,
+  deleteContactById,
+  addNewContact,
+} from 'api/fetchContacts';
 
 const contacts = createSlice({
   name: 'contacts',
   initialState: {
-    items,
+    items: [],
     filter: '',
   },
   reducers: {
-    addContact(state, action) {
-      state.items = [...state.items, { ...action.payload, id: nanoid() }];
-    },
-    deleteContact(state, action) {
-      state.items = state.items.filter(item => item.id !== action.payload);
+    setContacts(state, action) {
+      state.items = action.payload;
     },
     changeFilter(state, action) {
       state.filter = action.payload;
@@ -32,11 +27,44 @@ const contacts = createSlice({
 const persistConfig = {
   key: 'contacts',
   storage,
+  whitelist: ['filter'],
 };
 
-export const { addContact, deleteContact, changeFilter } = contacts.actions;
+// Actions
+export const { setContacts, changeFilter } = contacts.actions;
 
-export const contactsReducer = persistReducer(persistConfig, contacts.reducer);
+// Reducer
 
+export default persistReducer(persistConfig, contacts.reducer);
+
+// Selectors
 export const getContacts = state => state.contactsReducer.items;
 export const getFilter = state => state.contactsReducer.filter;
+
+// Async Actions
+export const getContactsAsync = () => async dispatch => {
+  try {
+    const res = await getAllContacts();
+    dispatch(setContacts(res));
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+export const addContactAsync = contact => async dispatch => {
+  try {
+    const res = await addNewContact(contact);
+    dispatch(setContacts(res));
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+export const deleteContactAsync = id => async dispatch => {
+  try {
+    const res = await deleteContactById(id);
+    dispatch(setContacts(res));
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
