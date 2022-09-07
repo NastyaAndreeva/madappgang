@@ -6,7 +6,7 @@ import { Box } from 'components/Box';
 import { Button } from 'components/ui/Button';
 import { toast } from 'react-toastify';
 import { useRedux } from 'hooks';
-import { addContactAsync, getContacts } from 'store/contacts';
+// import { addContactAsync, getContacts } from 'store/contacts';
 
 const Label = styled.label`
   margin-bottom: 10px;
@@ -19,12 +19,12 @@ const ContactErrorMessage = styled(ErrorMessage)`
 
 export const ContactForm = () => {
   const [selector, dispatch] = useRedux();
-  const contacts = selector(getContacts);
+  // const contacts = selector(getContacts);
 
-  const dataValidation = data =>
-    contacts.find(
-      contact => contact.name.toLowerCase() === data.name.toLowerCase()
-    );
+  const dataValidation = data => data;
+  // contacts.find(
+  //   contact => contact.name.toLowerCase() === data.name.toLowerCase()
+  // );
 
   const onSubmit = data => {
     const isAlreadyAdded = dataValidation(data);
@@ -40,7 +40,7 @@ export const ContactForm = () => {
       number: data.number,
     };
 
-    dispatch(addContactAsync(contact));
+    // dispatch(addContactAsync(contact));
   };
 
   const handleSubmit = (values, { resetForm }) => {

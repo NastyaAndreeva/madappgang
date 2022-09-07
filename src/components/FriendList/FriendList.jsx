@@ -5,11 +5,11 @@ import { Button } from 'components/ui/Button';
 import { theme } from 'stylesConfig/theme';
 import { useRedux } from 'hooks';
 import { getFilter } from 'store/contacts';
-import {
-  deleteContactAsync,
-  getContactsAsync,
-  getContacts,
-} from 'store/contacts';
+// import {
+//   deleteContactAsync,
+//   getContactsAsync,
+//   getContacts,
+// } from 'store/contacts';
 
 const FriendListStyled = styled.ul`
   list-style: none;
@@ -27,23 +27,22 @@ const FriendListItem = styled.li`
 
 export const FriendList = () => {
   const [selector, dispatch] = useRedux();
-  const contacts = selector(getContacts);
-  const filter = selector(getFilter);
+  // const contacts = selector(getContacts);
+  // const filter = selector(getFilter);
 
   useEffect(() => {
-    dispatch(getContactsAsync());
+    // dispatch(getContactsAsync());
   }, [dispatch]);
 
   const deleteContactbyId = contactId => {
-    dispatch(deleteContactAsync(contactId));
+    // dispatch(deleteContactAsync(contactId));
   };
 
   const getFilteredContacts = () => {
-    const normilizedFilter = filter.toLowerCase();
-
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normilizedFilter)
-    );
+    // const normilizedFilter = filter.toLowerCase();
+    // return contacts.filter(contact =>
+    //   contact.name.toLowerCase().includes(normilizedFilter)
+    // );
   };
 
   return (

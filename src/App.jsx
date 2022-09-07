@@ -4,13 +4,15 @@ import { FriendList } from 'components/FriendList';
 import { ContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { Box } from 'components/Box';
-import { useRedux } from 'hooks';
-import { getContactsAsync } from 'store/contacts';
+import { addNewUser } from 'api/fetchContacts';
+
+addNewUser({
+  name: 'Anastasia Xandria',
+  email: 'xandria-0312@mail.com',
+  password: 'QWERTY098',
+});
 
 export const App = () => {
-  const [selector] = useRedux();
-  const contacts = selector(getContactsAsync);
-
   return (
     <>
       <Box
@@ -28,11 +30,10 @@ export const App = () => {
           Find contacts by name
           <Filter />
         </label>
-        {contacts.length !== 0 && (
-          <>
-            <FriendList />
-          </>
-        )}
+
+        <>
+          <FriendList />
+        </>
       </Box>
       <ToastContainer autoClose={3000} />
     </>

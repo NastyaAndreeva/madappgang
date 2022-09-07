@@ -1,5 +1,14 @@
 import contactsApi from './contactsApi';
 
+export const addNewUser = async cridentials => {
+  try {
+    const data = await contactsApi.post('/users/signup', cridentials);
+    console.log('data: ', data);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
+
 export const getAllContacts = async () => {
   try {
     const { data } = await contactsApi.get('');
