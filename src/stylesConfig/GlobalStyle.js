@@ -8,6 +8,8 @@ const GlobalStyle = createGlobalStyle`
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: rgb(238,174,202);
+  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); 
 }
 
 code {
@@ -19,6 +21,11 @@ code {
 ::before,
 ::after {
 	box-sizing: border-box;
+}
+
+h1,h2,h3,h4,h5,h6, p {
+  margin: 0;
+  padding: 0;
 }
 `;
 

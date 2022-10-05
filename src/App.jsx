@@ -1,41 +1,72 @@
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FriendList } from 'components/FriendList';
-import { ContactForm } from 'components/ContactForm';
-import { Filter } from 'components/Filter';
-import { Box } from 'components/Box';
-import { addNewUser } from 'api/fetchContacts';
+import { useEffect, lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { SharedLayout } from './layout';
+import PrivateRoute from 'hocs/PrivateRoute';
+import PublicRoute from 'hocs/PublicRoute';
+import { authOperations } from 'store/auth';
+import { useAuth, useRedux } from 'hooks';
+import { dragonsOperations, dragonsSelectors } from 'store/dragons';
+import { DragonCard } from 'components/DragonCard';
 
-addNewUser({
-  name: 'Anastasia Xandria',
-  email: 'xandria-0312@mail.com',
-  password: 'QWERTY098',
-});
+const Home = lazy(() => import('pages'));
+const RegisterView = lazy(() => import('pages/SignUp'));
+const LoginView = lazy(() => import('pages/Login'));
+const DragonsView = lazy(() => import('pages/DragonsPage'));
+const NotFoundPage = lazy(() => import('pages/NotFoundPage'));
 
 export const App = () => {
-  return (
-    <>
-      <Box
-        width="400px"
-        margin="0 auto"
-        display="flex"
-        flexDirection="column"
-        as="section"
-      >
-        <h1>Phonebook</h1>
-        <ContactForm />
+  const { isRefreshing } = useAuth();
+  const [selector, dispatch] = useRedux();
+  const dragons = selector(dragonsSelectors.getAllDragons);
 
-        <h2>Contacts</h2>
-        <label htmlFor="filter">
-          Find contacts by name
-          <Filter />
-        </label>
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+    dispatch(dragonsOperations.getAllDragons());
+  }, [dispatch]);
 
-        <>
-          <FriendList />
-        </>
-      </Box>
-      <ToastContainer autoClose={3000} />
-    </>
+  return isRefreshing ? (
+    <h1>Refreshing user...</h1>
+  ) : (
+    <Suspense fallback={null}>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<PublicRoute component={<Home />} />} />
+          {dragons.map(dragon => (
+            <Route
+              key={dragon.name}
+              path={`/${dragon.name}`}
+              element={<DragonCard dragon={dragon} />}
+            />
+          ))}
+          <Route
+            path="/register"
+            element={
+              <PublicRoute
+                restricted
+                redirectTo="/dragons"
+                component={<RegisterView />}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute
+                restricted
+                redirectTo="/dragons"
+                component={<LoginView />}
+              />
+            }
+          />
+          <Route
+            path="/dragons"
+            element={
+              <PrivateRoute redirectTo="/login" component={<DragonsView />} />
+            }
+          />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 };
