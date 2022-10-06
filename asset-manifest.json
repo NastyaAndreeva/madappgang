@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/static/css/main.683c5b22.css",
-    "main.js": "/static/js/main.705b93ff.js",
+    "main.js": "/static/js/main.2e8e208a.js",
     "static/js/482.84b98660.chunk.js": "/static/js/482.84b98660.chunk.js",
-    "static/js/580.01fdfedc.chunk.js": "/static/js/580.01fdfedc.chunk.js",
-    "static/js/282.698939e9.chunk.js": "/static/js/282.698939e9.chunk.js",
-    "static/js/759.66af798b.chunk.js": "/static/js/759.66af798b.chunk.js",
+    "static/js/580.18cd4926.chunk.js": "/static/js/580.18cd4926.chunk.js",
+    "static/js/282.f6a517cc.chunk.js": "/static/js/282.f6a517cc.chunk.js",
+    "static/js/759.ebdac7ff.chunk.js": "/static/js/759.ebdac7ff.chunk.js",
     "static/js/93.d965666c.chunk.js": "/static/js/93.d965666c.chunk.js",
     "static/js/986.9bd235e0.chunk.js": "/static/js/986.9bd235e0.chunk.js",
     "static/media/404.jpg": "/static/media/404.430cac54d3b517b1bce1.jpg",
@@ -15,16 +15,16 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "main.683c5b22.css.map": "/static/css/main.683c5b22.css.map",
-    "main.705b93ff.js.map": "/static/js/main.705b93ff.js.map",
+    "main.2e8e208a.js.map": "/static/js/main.2e8e208a.js.map",
     "482.84b98660.chunk.js.map": "/static/js/482.84b98660.chunk.js.map",
-    "580.01fdfedc.chunk.js.map": "/static/js/580.01fdfedc.chunk.js.map",
-    "282.698939e9.chunk.js.map": "/static/js/282.698939e9.chunk.js.map",
-    "759.66af798b.chunk.js.map": "/static/js/759.66af798b.chunk.js.map",
+    "580.18cd4926.chunk.js.map": "/static/js/580.18cd4926.chunk.js.map",
+    "282.f6a517cc.chunk.js.map": "/static/js/282.f6a517cc.chunk.js.map",
+    "759.ebdac7ff.chunk.js.map": "/static/js/759.ebdac7ff.chunk.js.map",
     "93.d965666c.chunk.js.map": "/static/js/93.d965666c.chunk.js.map",
     "986.9bd235e0.chunk.js.map": "/static/js/986.9bd235e0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.683c5b22.css",
-    "static/js/main.705b93ff.js"
+    "static/js/main.2e8e208a.js"
   ]
 }
