@@ -10,13 +10,13 @@ import {
 
 export const DragonList = ({ dragons, action }) => {
   const { isLoggedIn } = useAuth();
-  const [_, dispatch] = useRedux();
+  const [dispatch] = useRedux();
 
   return (
     <DragonListStyled>
       {dragons?.map(({ id, name, flickr_images }) => (
         <DragonListItem key={id}>
-          <Link to={`/${name}`}>
+          <Link to={`/dragons/${id}`}>
             {name}: <DragonListImage src={flickr_images[0]} alt="Dragon" />
           </Link>
 

@@ -5,8 +5,8 @@ import PrivateRoute from 'hocs/PrivateRoute';
 import PublicRoute from 'hocs/PublicRoute';
 import { authOperations } from 'store/auth';
 import { useAuth, useRedux } from 'hooks';
-import { dragonsOperations, dragonsSelectors } from 'store/dragons';
-import { DragonCard } from 'components/DragonCard';
+import { dragonsOperations } from 'store/dragons';
+import { DragonCard } from 'pages/DragonCard';
 
 const Home = lazy(() => import('pages'));
 const RegisterView = lazy(() => import('pages/SignUp'));
@@ -16,8 +16,7 @@ const NotFoundPage = lazy(() => import('pages/NotFoundPage'));
 
 export const App = () => {
   const { isRefreshing } = useAuth();
-  const [selector, dispatch] = useRedux();
-  const dragons = selector(dragonsSelectors.getAllDragons);
+  const [dispatch] = useRedux();
 
   useEffect(() => {
     dispatch(authOperations.fetchCurrentUser());
@@ -31,13 +30,10 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<PublicRoute component={<Home />} />} />
-          {dragons.map(dragon => (
-            <Route
-              key={dragon.name}
-              path={`/${dragon.name}`}
-              element={<DragonCard dragon={dragon} />}
-            />
-          ))}
+          <Route
+            path={`/dragons/:id`}
+            element={<PublicRoute component={<DragonCard />} />}
+          />
           <Route
             path="/register"
             element={

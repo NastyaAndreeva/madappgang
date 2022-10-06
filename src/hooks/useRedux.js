@@ -5,5 +5,5 @@ export const useRedux = () => {
   const dispatch = useDispatch();
   const store = useStore();
 
-  return [useSelector, dispatch, store];
+  return [dispatch, useSelector, store];
 };

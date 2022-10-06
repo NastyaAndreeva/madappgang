@@ -12,17 +12,17 @@ import { theme } from './stylesConfig/theme';
 import { store, persistedStore } from 'store';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistedStore}>
-      <GlobalStyle />
-      <BrowserRouter basename="goit-react-hw-08-phonebook">
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </BrowserRouter>
-    </PersistGate>
-    <ToastContainer />
-  </Provider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistedStore}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </BrowserRouter>
+      </PersistGate>
+      <ToastContainer />
+    </Provider>
+  </React.StrictMode>
 );

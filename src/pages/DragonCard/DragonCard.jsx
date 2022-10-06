@@ -1,4 +1,8 @@
 import SimpleSlider from 'components/SlickCarousel/SlickCarousel';
+import { useRedux } from 'hooks';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { dragonsOperations, dragonsSelectors } from 'store/dragons';
 import {
   DragonTitle,
   DragonDescription,
@@ -9,8 +13,17 @@ import {
   AdditionalParameterName,
 } from './DragonCard.styled';
 
-export const DragonCard = ({ dragon }) => {
-  console.log('dragon: ', dragon);
+export const DragonCard = () => {
+  const [dispatch, selector] = useRedux();
+  const dragons = selector(dragonsSelectors.getAllDragons);
+
+  useEffect(() => {
+    dispatch(dragonsOperations.getAllDragons());
+  }, [dispatch]);
+
+  const { id } = useParams();
+  const dragonIndex = dragons.findIndex(dragon => dragon.id === id);
+  const dragon = dragons[dragonIndex];
   return (
     <div>
       <DragonTitle>{dragon.name}</DragonTitle>

@@ -6,59 +6,37 @@ import {
   fetchLogin,
   fetchLogout,
 } from 'api/fetchUser';
+import { toast } from 'react-toastify';
 
-/*
- * POST @ /users/signup
- * body: { name, email, password }
- * После успешной регистрации добавляем токен в HTTP-заголовок
- */
 const register = createAsyncThunk('auth/register', async credentials => {
   try {
     const { data } = await fetchRegister(credentials);
     token.set(data.token);
     return data;
   } catch (error) {
-    // TODO: Добавить обработку ошибки error.message
+    toast.error(error.message);
   }
 });
 
-/*
- * POST @ /users/login
- * body: { email, password }
- * После успешного логина добавляем токен в HTTP-заголовок
- */
 const logIn = createAsyncThunk('auth/login', async credentials => {
   try {
     const { data } = await fetchLogin(credentials);
     token.set(data.token);
     return data;
   } catch (error) {
-    // TODO: Добавить обработку ошибки error.message
+    toast.error(error.message);
   }
 });
 
-/*
- * POST @ /users/logout
- * headers: Authorization: Bearer token
- * После успешного логаута, удаляем токен из HTTP-заголовка
- */
 const logOut = createAsyncThunk('auth/logout', async () => {
   try {
     await fetchLogout();
     token.unset();
   } catch (error) {
-    // TODO: Добавить обработку ошибки error.message
+    toast.error(error.message);
   }
 });
-/*
- * GET @ /users/current
- * headers:
- *    Authorization: Bearer token
- *
- * 1. Забираем токен из стейта через getState()
- * 2. Если токена нет, выходим не выполняя никаких операций
- * 3. Если токен есть, добавляет его в HTTP-заголовок и выполянем операцию
- */
+
 const fetchCurrentUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
@@ -75,7 +53,7 @@ const fetchCurrentUser = createAsyncThunk(
       const { data } = await fetchCurrent();
       return data;
     } catch (error) {
-      // TODO: Добавить обработку ошибки error.message
+      toast.error(error.message);
     }
   }
 );

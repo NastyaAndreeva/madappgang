@@ -2,19 +2,14 @@ import { DragonList } from 'components/DragonList';
 import { Box } from 'components/ui/Box';
 import { Container } from 'components/ui/Container';
 import { Link } from 'components/ui/Link';
+import { StyledContainer } from 'components/ui/StyledContainer';
 import { useAuth, useRedux } from 'hooks';
 import { useEffect } from 'react';
 import { dragonsOperations, dragonsSelectors } from 'store/dragons';
-import styled from 'styled-components';
-
-const StyledContainer = styled.p`
-  display: flex;
-  align-items: center;
-`;
 
 const Home = () => {
   const { isLoggedIn } = useAuth();
-  const [selector, dispatch] = useRedux();
+  const [dispatch, selector] = useRedux();
   const dragons = selector(dragonsSelectors.getAllDragons);
 
   useEffect(() => {
