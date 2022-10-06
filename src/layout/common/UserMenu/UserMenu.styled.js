@@ -23,3 +23,7 @@ export const GreetingsText = styled.span`
   margin-left: 10px;
   margin-right: 10px;
 `;
+
+export const ImgAvatar = styled.img`
+  border-radius: 50%;
+`;

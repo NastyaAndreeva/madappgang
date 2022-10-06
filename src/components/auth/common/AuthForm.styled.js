@@ -24,7 +24,7 @@ export const Heading = styled.h1`
 export const FormStyled = styled(Form)`
   margin: 0 auto;
   width: 400px;
-  background-color: orangered;
+  background-color: #9370db;
   padding: 20px;
   border-radius: 10px;
 `;

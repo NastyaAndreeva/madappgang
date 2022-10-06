@@ -5,4 +5,5 @@ export const Heading = styled.h1`
   font-weight: 600;
   color: #090439;
   font-size: 20px;
+  margin-bottom: 20px;
 `;
