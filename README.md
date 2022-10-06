@@ -1,6 +1,6 @@
 **Read in other languages: [Русский](README.md), [Polska](README.pl.md).**
 
-# React homework template
+# React App
 
 Этот проект был создан при помощи
 [Create React App](https://github.com/facebook/create-react-app). Для знакомства
